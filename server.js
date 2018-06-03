@@ -40,10 +40,20 @@ app.set('view engine', 'handlebars');
 // get route for scraping the medium site 
 app.get("/scrape", function(req, res) {
     // first we grab the body of the html with the request
-    axios.get("http:www.medium.com/").then(function(response) {
+    axios.get("http://www.medium.com/").then(function(response) {
         // then we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
+    
+    // grab every h3 within an a class
+    $("h3").each(function(i, element) {
+        // save an empty result object
+        var result = {};
+
+        // add the text and href of every link , and save them 
+        // as properties of the result object 
+
     })
+})
 
 })
 
