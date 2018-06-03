@@ -4,9 +4,14 @@ var hbs = require("express-handlebars");
 // HTTP request logger middleware 
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var cheerio = require("cheerio");
 var request = require("request");
+
+// scraping tools
+var axios = require("axios");
+var cheerio = require("cheerio");
+
 var db = require('./models')
+
 
 var port = process.env.PORT || 3000; //host server port or local 3000 port
 
@@ -32,11 +37,25 @@ app.set('view engine', 'handlebars');
 
 //requiring all the routes
 
-// get route for 
+// get route for scraping the medium site 
+app.get("/scrape", function(req, res) {
+    // first we grab the body of the html with the request
+    axios.get("http:www.medium.com/").then(function(response) {
+        // then we load that into cheerio and save it to $ for a shorthand selector
+        var $ = cheerio.load(response.data);
+    })
+
+})
+
+// route to get all articles from the db 
+
+// route to grab a specific article by id and populate with comments
+
+// route for saving / updating an article's associated comment 
 
 //=============================
 
-
+// start the server 
 var server = app.listen(port, function(){
     console.log("Server is listening on port " + port)
 })
