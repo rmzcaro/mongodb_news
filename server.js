@@ -32,7 +32,7 @@ app.set('view engine', 'handlebars');
 
 //requiring all the routes
 
-// 
+// get route for 
 
 //=============================
 
