@@ -29,6 +29,10 @@ app.use(express.static("public"))
 // parse application/json
 app.use(bodyParser.json())
 
+//db configuration
+var databaseUrl = "newsdb";
+var collections = ["news"];
+
 // connect to the mongo db, name of db: newsdb
 mongoose.connect("mongodb://localhost/newsdb");
 
@@ -44,10 +48,6 @@ app.get("/scrape", function(req, res) {
     axios.get("http://www.techcrunch.com").then(function(response) {
         // then we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
-    
-    // grab every h3 within an a class
-    // $("h3").each(function(i, element) {
-    //     // save an empty result object
 
         // add the text and href of every link , and save them 
         // as properties of the result object 
