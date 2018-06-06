@@ -1,4 +1,5 @@
 var express = require("express");
+var mongojs = require("mongojs");
 var bodyParser = require("body-parser");
 var hbs = require("express-handlebars");
 // HTTP request logger middleware 
@@ -42,6 +43,11 @@ mongoose.connect("mongodb://localhost/newsdb");
 //express handlebars express extension to render handlebars partials
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+
+// log any mongojs errors to console 
+db.on("error", function(error) {
+    console.log("Database error:", error);
+});
 
 //requiring all the routes
 
