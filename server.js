@@ -65,9 +65,10 @@ app.get("/scrape", function(req, res) {
                     title: $(this).text(),
                     url: $(this).attr("href")
                 };
+                console.log(result + "line 68")
 
             // create my collections in db
-            db.Collection.create(result);        
+            // db.Collection.create(result);        
 
         })
             // close off function and inform user once done (keep it restful)
