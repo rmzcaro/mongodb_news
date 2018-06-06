@@ -70,6 +70,19 @@ app.get("/all", function(req, res) {
     });
 });
 
+// at the /name path, display every entry sorted by headline 
+app.get("/headline", function(req, res) {
+    // query in db, go to news collection, find all and sort in ascending order by headline 
+    db.news.find().sort({ headline: 1}, function(err, found) {
+        if (err) {
+            console.log(err);
+        } 
+        else {
+            res.json(found);
+        }
+    });
+});
+
 // get route for scraping the medium site 
 app.get("/scrape", function(req, res) {
     // first we grab the body of the html with the request
