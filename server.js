@@ -7,17 +7,16 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 var request = require("request");
 
+// initialize express
+var app = express();
+
 // scraping tools
 var axios = require("axios");
 var cheerio = require("cheerio");
 
 var db = require('./models')
 
-
 var port = process.env.PORT || 3000; //host server port or local 3000 port
-
-// initialize express
-var app = express();
 
 // morgan logger for loggin requests CHECK IF LATER ISSUE 
 // app.use(logger("dev"));
@@ -41,8 +40,8 @@ var db = mongojs(databaseUrl, collections);
 mongoose.connect("mongodb://localhost/newsdb");
 
 //express handlebars express extension to render handlebars partials
-app.engine('handlebars', hbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+// app.engine('handlebars', hbs({defaultLayout: 'main'}));
+// app.set('view engine', 'handlebars');
 
 // log any mongojs errors to console 
 db.on("error", function(error) {
@@ -50,6 +49,26 @@ db.on("error", function(error) {
 });
 
 //requiring all the routes
+
+// simple message 
+app.get("/", function(req, res) {
+    res.send("Hello Mundo");
+  });
+
+// display all entried in the /all path 
+app.get("/all", function(req, res) {
+    // query: in our db go to news collections and grab all 
+    db.news.find({}, function(err, found) {
+    // log any errors
+    if (err) {
+        console.log(err);
+    }
+    else {
+        res.json(found);
+        console.log(found + "line 68")
+    }
+    });
+});
 
 // get route for scraping the medium site 
 app.get("/scrape", function(req, res) {
