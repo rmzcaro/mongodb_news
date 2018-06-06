@@ -33,6 +33,9 @@ app.use(bodyParser.json())
 var databaseUrl = "newsdb";
 var collections = ["news"];
 
+// hook mongojs config to db variables
+var db = mongojs(databaseUrl, collections);
+
 // connect to the mongo db, name of db: newsdb
 mongoose.connect("mongodb://localhost/newsdb");
 
