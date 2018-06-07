@@ -108,8 +108,13 @@ app.get("/scrape", function(req, res) {
                 };
                 console.log(result + "line 68")
 
-            // create my collections in db
-            // db.Collection.create(result);        
+
+            // create my a news article in news collections 
+            db.NewsArticle.create(result)
+            .then(function(dbNews){
+                // view result in the console
+                console.log(dbNews)
+            })       
 
         })
             // close off function and inform user once done (keep it restful)

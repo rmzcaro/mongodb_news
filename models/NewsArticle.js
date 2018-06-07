@@ -5,27 +5,39 @@ var Schema = mongoose.Schema;
 
 // using the schema constructor, create a new userSchema object 
 var ArticleSchema = new Schema({
+
+    articleId: {
+        type: String,
+        require: [true, "id is required"],
+        unique: true
+    },
     // title is required and of type String 
-    title: {
+    headline: {
         type: String, 
         required: true
     },
     // link and type of string 
-    /* 
-    title: {
+    
+    summary: {
         type: String, 
         required: true
     },
-    // comment is an objec that stores a comment 
+    url: {
+        type: String
+    },
+        // comment is an objec that stores a comment 
     comment: {
-        type: Schema.Types.ObjectId, 
-        ref: "Comment"
+        type: String, 
+        default: ""
+    },
+    photo: {
+        type: String
     }
-    */
+    
 });
 
 // this creates our model from the above schema, using mongoose model method
-var Article = mongoose.model("Article", ArticleSchema);
+var NewsArticle = mongoose.model("NewsArticle", ArticleSchema);
 
 // export the Article model
-module.exports = Article; 
+module.exports = NewsArticle; 
