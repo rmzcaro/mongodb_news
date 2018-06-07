@@ -8,7 +8,6 @@ var ArticleSchema = new Schema({
 
     articleId: {
         type: String,
-        require: [true, "id is required"],
         unique: true
     },
     // title is required and of type String 

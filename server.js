@@ -108,28 +108,18 @@ app.get("/scrape", function (req, res) {
             // mongoose to save this on db
 
             var result = {
-                title: $(this).text(),
-                url: $(this).attr("href")
+                headline: $(this).text().trim(),
+                url: $(this).attr("href").trim()
             };
-            console.log(result + "line 68")
+            console.log(result + "line 115")
 
 
             // create my a news article in news collections 
             db.Article.create(result)
-
-                .then(function (dbArticle) {
-                    // view result in the console
-                    console.log(dbArticle + "line 120");
-                    console.log(result + "line 121");
-
-                    // close off function and inform user once done (keep it restful)
-                    // res.send("Scrape Complete");
-                    // retrieve items from db // })
-                })
-                .catch(function (err) {
-                    // if error, send it to client
-                    return res.json(err);
-                });
+            .catch(function(err){
+                console.log(err)
+            });
+     
         });
 
         // scrape notice here
