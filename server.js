@@ -23,7 +23,9 @@ var port = process.env.PORT || 3000; //host server port or local 3000 port
 
 // body parser chunks your data (it's a middleware) in a secure way, because express by itself cannot read all daa
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true })) //set extended to true to prevent stripping objects
+app.use(bodyParser.urlencoded({
+    extended: true
+})) //set extended to true to prevent stripping objects
 //serve static client css and js files
 app.use(express.static("public"))
 // parse application/json
@@ -33,8 +35,9 @@ app.use(bodyParser.json())
 var databaseUrl = "newsdb";
 var collections = ["news"];
 
+// MAY NOT NEED ANYMORE 
 // hook mongojs config to db variables
-var db = mongojs(databaseUrl, collections);
+// var db = mongojs(databaseUrl, collections);
 
 // connect to the mongo db, name of db: newsdb
 mongoose.connect("mongodb://localhost/newsdb");
@@ -43,89 +46,96 @@ mongoose.connect("mongodb://localhost/newsdb");
 // app.engine('handlebars', hbs({defaultLayout: 'main'}));
 // app.set('view engine', 'handlebars');
 
+// MAY NOT NEED ANYMORE
 // log any mongojs errors to console 
-db.on("error", function(error) {
-    console.log("Database error:", error);
-});
+// db.on("error", function(error) {
+//     console.log("Database error:", error);
+// });
 
 //requiring all the routes
 
+// MAY NOT NEED ANYMORE 
 // simple message 
-app.get("/", function(req, res) {
-    res.send("Hello Mundo");
-  });
+// app.get("/", function(req, res) {
+//     res.send("Hello Mundo");
+//   });
 
-// display all entried in the /all path 
-app.get("/all", function(req, res) {
-    // query: in our db go to news collections and grab all 
-    db.news.find({}, function(err, found) {
-    // log any errors
-    if (err) {
-        console.log(err);
-    }
-    else {
-        res.json(found);
-        console.log(found + "line 68")
-    }
-    });
-});
+// // display all entried in the /all path 
+// app.get("/all", function(req, res) {
+//     // query: in our db go to news collections and grab all 
+//     db.news.find({}, function(err, found) {
+//     // log any errors
+//     if (err) {
+//         console.log(err);
+//     }
+//     else {
+//         res.json(found);
+//         console.log(found + "line 68")
+//     }
+//     });
+// });
 
-// at the /name path, display every entry sorted by headline 
-app.get("/headline", function(req, res) {
-    // query in db, go to news collection, find all and sort in ascending order by headline 
-    db.news.find().sort({ headline: 1}, function(err, found) {
-        if (err) {
-            console.log(err);
-        } 
-        else {
-            res.json(found);
-        }
-    });
-});
+// // at the /name path, display every entry sorted by headline 
+// app.get("/headline", function(req, res) {
+//     // query in db, go to news collection, find all and sort in ascending order by headline 
+//     db.news.find().sort({ headline: 1}, function(err, found) {
+//         if (err) {
+//             console.log(err);
+//         } 
+//         else {
+//             res.json(found);
+//         }
+//     });
+// });
 
 // get route for scraping the medium site 
-app.get("/scrape", function(req, res) {
+app.get("/scrape", function (req, res) {
     // first we grab the body of the html with the request
-    axios.get("http://www.techcrunch.com").then(function(response) {
+    axios.get("http://www.techcrunch.com").then(function (response) {
         // then we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
 
         // add the text and href of every link , and save them 
         // as properties of the result object 
-        let stories = $(".post-block__title__link"); 
+        let stories = $(".post-block__title__link");
         console.log(stories);
 
         // load text of stories - check cheerio
-        stories.each(function(story, i) {
+        stories.each(function (story, i) {
             console.log($(this).text());
             console.log($(this).attr("href"))
 
             // mongoose to save this on db
-            
+
             var result = {
-                    title: $(this).text(),
-                    url: $(this).attr("href")
-                };
-                console.log(result + "line 68")
+                title: $(this).text(),
+                url: $(this).attr("href")
+            };
+            console.log(result + "line 68")
 
 
             // create my a news article in news collections 
-            db.NewsArticle.create(result)
-            .then(function(dbNews){
-                // view result in the console
-                console.log(dbNews)
-            })       
+            db.Article.create(result)
 
-        })
-            // close off function and inform user once done (keep it restful)
+                .then(function (dbArticle) {
+                    // view result in the console
+                    console.log(dbArticle + "line 120");
+                    console.log(result + "line 121");
 
-            // retrive items from db 
+                    // close off function and inform user once done (keep it restful)
+                    // res.send("Scrape Complete");
+                    // retrieve items from db // })
+                })
+                .catch(function (err) {
+                    // if error, send it to client
+                    return res.json(err);
+                });
+        });
 
+        // scrape notice here
 
-   // })
-})
-
-})
+    });
+});
 
 // route to get all articles from the db 
 
@@ -136,7 +146,6 @@ app.get("/scrape", function(req, res) {
 //=============================
 
 // start the server 
-var server = app.listen(port, function(){
+var server = app.listen(port, function () {
     console.log("Server is listening on port " + port)
-})
-
+});

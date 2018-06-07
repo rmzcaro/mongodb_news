@@ -14,13 +14,11 @@ var ArticleSchema = new Schema({
     // title is required and of type String 
     headline: {
         type: String, 
-        required: true
     },
     // link and type of string 
     
     summary: {
         type: String, 
-        required: true
     },
     url: {
         type: String
@@ -37,7 +35,7 @@ var ArticleSchema = new Schema({
 });
 
 // this creates our model from the above schema, using mongoose model method
-var NewsArticle = mongoose.model("NewsArticle", ArticleSchema);
+var Article = mongoose.model("Article", ArticleSchema);
 
 // export the Article model
-module.exports = NewsArticle; 
+module.exports = Article; 
