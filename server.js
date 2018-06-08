@@ -1,7 +1,6 @@
 var express = require("express");
 var mongojs = require("mongojs");
 var bodyParser = require("body-parser");
-var hbs = require("express-handlebars");
 // HTTP request logger middleware 
 var logger = require("morgan");
 var mongoose = require("mongoose");
@@ -9,6 +8,8 @@ var request = require("request");
 
 // initialize express
 var app = express();
+var hbs = require("express-handlebars");
+
 
 // scraping tools
 var axios = require("axios");
@@ -43,8 +44,8 @@ var collections = ["news"];
 mongoose.connect("mongodb://localhost/newsdb");
 
 //express handlebars express extension to render handlebars partials
-// app.engine('handlebars', hbs({defaultLayout: 'main'}));
-// app.set('view engine', 'handlebars');
+app.engine('handlebars', hbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // MAY NOT NEED ANYMORE
 // log any mongojs errors to console 
@@ -133,10 +134,14 @@ app.get("/scrape", function (req, res) {
 
 app.get("/articles", function(req, res) {
     // grab every document in the articles 
-    db.Article.find({})
-    .then(function(dbArticle){
-        // res.render("index", dbArticle)
-        res.json(dbArticle);
+    db.Article.find()
+    .then(function(stories){
+        console.log("stories", stories)
+        let hbsObject = {
+            stories: stories
+        };
+        res.render("index", hbsObject)
+        // res.json(dbArticle);
     })
     .catch(function(err) {
         res.json(err);
