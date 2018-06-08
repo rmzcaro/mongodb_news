@@ -94,6 +94,7 @@ app.get("/scrape", function (req, res) {
     axios.get("http://www.techcrunch.com").then(function (response) {
         // then we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
+        console.log(response.data);
 
         // add the text and href of every link , and save them 
         // as properties of the result object 
@@ -125,9 +126,22 @@ app.get("/scrape", function (req, res) {
         // scrape notice here
 
     });
+    res.status(200).end();
 });
 
 // route to get all articles from the db 
+
+app.get("/articles", function(req, res) {
+    // grab every document in the articles 
+    db.Article.find({})
+    .then(function(dbArticle){
+        // res.render("index", dbArticle)
+        res.json(dbArticle);
+    })
+    .catch(function(err) {
+        res.json(err);
+    });
+});
 
 // route to grab a specific article by id and populate with comments
 

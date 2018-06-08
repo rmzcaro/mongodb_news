@@ -8,7 +8,7 @@ var ArticleSchema = new Schema({
 
     articleId: {
         type: String,
-        unique: true
+        // unique: true
     },
     // title is required and of type String 
     headline: {
