@@ -106,14 +106,16 @@ app.get("/scrape", function (req, res) {
         stories.each(function (story, i) {
             console.log($(this).text());
             console.log($(this).attr("href"))
+            console.log($(this).siblings(".post-block__content").text());
 
             // mongoose to save this on db
 
             var result = {
                 headline: $(this).text().trim(),
-                url: $(this).attr("href").trim()
+                url: $(this).attr("href").trim(),
+                summary: $(this).siblings(".post-block__content").text()
             };
-            console.log(result + "line 115")
+            // console.log(result + "line 115")
 
 
             // create my a news article in news collections 
@@ -149,6 +151,22 @@ app.get("/articles", function(req, res) {
 });
 
 // route to grab a specific article by id and populate with comments
+
+app.put("/comment", function(req, res) {
+    Article.updateOne({
+        articleId: req.body.articleId
+    },{
+        hasComment: true,
+        comment:req.body.comment
+    })
+    .then(function() {
+        res.status(200).end();
+    })
+    .catch(function(err) {
+        console.log("no comment added")
+        console.log(err);
+    })
+})
 
 // route for saving / updating an article's associated comment 
 

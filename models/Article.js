@@ -22,6 +22,10 @@ var ArticleSchema = new Schema({
     url: {
         type: String
     },
+    hasComment: {
+        type: Boolean,
+        default: false
+    },
         // comment is an objec that stores a comment 
     comment: {
         type: String, 
