@@ -36,10 +36,6 @@ app.use(bodyParser.json())
 var databaseUrl = "newsdb";
 var collections = ["news"];
 
-// MAY NOT NEED ANYMORE 
-// hook mongojs config to db variables
-// var db = mongojs(databaseUrl, collections);
-
 // connect to the mongo db, name of db: newsdb
 mongoose.connect("mongodb://localhost/newsdb");
 
@@ -54,40 +50,6 @@ app.set('view engine', 'handlebars');
 // });
 
 //requiring all the routes
-
-// MAY NOT NEED ANYMORE 
-// simple message 
-// app.get("/", function(req, res) {
-//     res.send("Hello Mundo");
-//   });
-
-// // display all entried in the /all path 
-// app.get("/all", function(req, res) {
-//     // query: in our db go to news collections and grab all 
-//     db.news.find({}, function(err, found) {
-//     // log any errors
-//     if (err) {
-//         console.log(err);
-//     }
-//     else {
-//         res.json(found);
-//         console.log(found + "line 68")
-//     }
-//     });
-// });
-
-// // at the /name path, display every entry sorted by headline 
-// app.get("/headline", function(req, res) {
-//     // query in db, go to news collection, find all and sort in ascending order by headline 
-//     db.news.find().sort({ headline: 1}, function(err, found) {
-//         if (err) {
-//             console.log(err);
-//         } 
-//         else {
-//             res.json(found);
-//         }
-//     });
-// });
 
 // get route for scraping the medium site 
 app.get("/scrape", function (req, res) {
@@ -115,20 +77,15 @@ app.get("/scrape", function (req, res) {
                 url: $(this).attr("href").trim(),
                 summary: $(this).siblings(".post-block__content").text()
             };
-            // console.log(result + "line 115")
-
-
             // create my a news article in news collections 
             db.Article.create(result)
             .catch(function(err){
                 console.log(err)
             });
-     
         });
 
-        // scrape notice here
-
     });
+    // scrape notice here
     res.status(200).end();
 });
 
@@ -149,8 +106,17 @@ app.get("/articles", function(req, res) {
         res.json(err);
     });
 });
+// route to view a comment once saved 
+// 1- grab a specific id using the id in the parameter, prep ar query that finds the matching one in db
+// 2- populate all associated notes 
+// 3 - if all is found successfully find article with matchind if, send it back to client 
+// 4 - else send error 
 
-// route to grab a specific article by id and populate with comments
+// route to save / update an associated comment 
+// 1- create a new note and pass hte req.body to the entry
+// 2- if comment was successfully added, find one article with and id equal to parameter
+// update the article associated with comment 
+// 3 - chain a result of the query
 
 app.put("/comment", function(req, res) {
     Article.updateOne({
