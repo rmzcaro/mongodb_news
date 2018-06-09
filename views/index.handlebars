@@ -5,9 +5,8 @@
      <p> {{headline}} </p>
           <p> {{url}} </p>
           <!--if button clicked add comment  --> 
-          <button class ="updateOne" data-id="{{id}}" data-newComment="{{hasComment:false}}">
-              {{#if hascomment:<i class="fas fa-sliders-h-square    "></i>}}COMMENT HERE{{else}}NO COMMENT{{/if}}
-
+          <button class ="viewComments" data-id="{{id}}">
+              <i class="fas fa-sliders-h-square"></i>COMMENT HERE
           </button>
     {{/each}}
 </div>

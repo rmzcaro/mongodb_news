@@ -106,7 +106,7 @@ app.get("/articles", function(req, res) {
         res.json(err);
     });
 });
-// route to view a comment once saved 
+// route to view comments once saved 
 // 1- grab a specific id using the id in the parameter, prep ar query that finds the matching one in db
 // 2- populate all associated notes 
 // 3 - if all is found successfully find article with matchind if, send it back to client 
@@ -117,6 +117,8 @@ app.get("/articles", function(req, res) {
 // 2- if comment was successfully added, find one article with and id equal to parameter
 // update the article associated with comment 
 // 3 - chain a result of the query
+// 4 = if successful, send it back to client 
+// 5 - catch if error 
 
 app.put("/comment", function(req, res) {
     Article.updateOne({
@@ -133,8 +135,6 @@ app.put("/comment", function(req, res) {
         console.log(err);
     })
 })
-
-// route for saving / updating an article's associated comment 
 
 //=============================
 
