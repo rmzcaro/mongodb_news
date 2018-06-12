@@ -1,18 +1,21 @@
-
-<h2>test</h2>
 <div class="articlesBox">
     {{#each stories}}
-     <p> {{headline}} </p>
-          <p> {{url}} </p>
-          <p> {{summary}} </p>
-    <img src="{{photo}}" alt="photo" width="250px" height="100px">          
+    <p> {{headline}} </p>
+    <p> {{url}} </p>
+    <p> {{summary}} </p>
+    {{#if photo}}
+    <img src="{{photo}}" alt="photo" width="250px" height="100px"> {{else}}
+    <img src="./images/noimg.png" alt="no image icon"> {{/if}}
+    <br> {{!-- add input here --}}
+    {{#if hasComment}}
+    <p>{{comment}}</p>
+    {{else}}
+    <input type="text" name="" id="">
+    <!--if button clicked add comment  -->
+    <button class="viewComments" data-id="{{_id}}">
+        <i class="fas fa-sliders-h-square"></i>COMMENT HERE
+    </button>
+    {{/if}}
+    <hr> {{/each}}
 
-<hr>
-{{!-- add input here --}}
-<input type="text" name="" id="">
-          <!--if button clicked add comment  --> 
-          <button class ="viewComments" data-id="{{_id}}">
-              <i class="fas fa-sliders-h-square"></i>COMMENT HERE
-          </button>
-    {{/each}}
 </div>

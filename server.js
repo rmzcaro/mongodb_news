@@ -116,15 +116,16 @@ app.get("/articles", function(req, res) {
 // 4 = if successful, send it back to client 
 // 5 - catch if error 
 
-app.put("/comment", function(req, res) {
-    Article.updateOne({
-        articleId: req.body.articleId
+app.post("/comment", function(req, res) {
+    console.log(req.body);
+    db.Article.updateOne({
+        _id: req.body._id
     },{
         hasComment: true,
         comment:req.body.comment
     })
     .then(function() {
-        res.status(200).end();
+        res.status(200).send("comment added");
     })
     .catch(function(err) {
         console.log("no comment added")
