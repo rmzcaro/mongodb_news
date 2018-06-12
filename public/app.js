@@ -13,7 +13,19 @@ comment: $(this).prev().val()
 }
 console.log(commentText);
         $.post("/comment",commentText, function(data) {
-            
+            location.reload();
+        })
+    })
+    $(".remove").on("click", function() {
+        let id = $(this).attr("data-id");
+        $.ajax({
+            method: "DELETE",
+            data: {
+                _id:id
+            },
+            url: "/deleteComment"
+        }).done(function(){
+           location.reload();
         })
     })
     

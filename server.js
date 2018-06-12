@@ -133,6 +133,15 @@ app.post("/comment", function(req, res) {
     })
 })
 
+app.delete("/deleteComment", function(req, res){
+    db.Article.updateOne(req.body,{
+        hasComment: false
+    })
+    .then(function(){
+        res.status(200).end();
+    })
+})
+
 //=============================
 
 // start the server 
