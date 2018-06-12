@@ -61,24 +61,20 @@ app.get("/scrape", function (req, res) {
 
         // add the text and href of every link , and save them 
         // as properties of the result object 
-        let stories = $(".post-block__title__link");
+        let stories = $(".post-block");
         // console.log(stories);
 
         // load text of stories - check cheerio
-        stories.each(function (story, i) {
-            console.log($(this).text());
-            console.log($(this).attr("href"))
-            console.log("this is a summary", $(this).find(".post-block__content").children().text());
-
-            // mongoose to save this on db
-
-            var result = {
-                headline: $(this).text().trim(),
-                url: $(this).attr("href").trim(),
-                summary: $(this).find(".post-block__content").children().text()
-            };
+        stories.each(function (i, story) {
+            let eachStory = {
+                    headline : $(story).children(".post-block__header").children(".post-block__title").text().trim(),
+                    url : $(story).children(".post-block__header").children(".post-block__title").children(".post-block__title__link").attr("href"),
+                    summary : $(story).children(".post-block__content").text().trim(),
+                    photo : $(story).children(".post-block__footer").children().children().children("img").attr("src")
+            }
+            console.log(eachStory);
             // create my a news article in news collections 
-            db.Article.create(result)
+            db.Article.create(eachStory)
             .catch(function(err){
                 console.log(err)
             });
@@ -95,7 +91,7 @@ app.get("/articles", function(req, res) {
     // grab every document in the articles 
     db.Article.find()
     .then(function(stories){
-        console.log("stories", stories)
+        // console.log("stories", stories)
         let hbsObject = {
             stories: stories
         };
