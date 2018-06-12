@@ -2,7 +2,7 @@ var express = require("express");
 var mongojs = require("mongojs");
 var bodyParser = require("body-parser");
 // HTTP request logger middleware 
-var logger = require("morgan");
+// var logger = require("morgan");
 var mongoose = require("mongoose");
 var request = require("request");
 
@@ -17,7 +17,7 @@ var cheerio = require("cheerio");
 
 var db = require('./models')
 
-var port = process.env.PORT || 3000; //host server port or local 3000 port
+var PORT = process.env.PORT || 3000; //host server port or local 3000 port
 
 // morgan logger for loggin requests CHECK IF LATER ISSUE 
 // app.use(logger("dev"));
@@ -145,6 +145,6 @@ app.delete("/deleteComment", function(req, res){
 //=============================
 
 // start the server 
-var server = app.listen(port, function () {
-    console.log("Server is listening on port " + port)
+var server = app.listen(PORT, function () {
+    console.log("Server is listening on port " + PORT)
 });

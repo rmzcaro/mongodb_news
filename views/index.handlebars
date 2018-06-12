@@ -1,4 +1,5 @@
 <div class="articlesBox">
+    {{!-- show the object of scraped data --}}
     {{#each stories}}
     <p> {{headline}} </p>
     <p> {{url}} </p>
@@ -6,7 +7,8 @@
     {{#if photo}}
     <img src="{{photo}}" alt="photo" width="250px" height="100px"> {{else}}
     <img src="./images/noimg.png" alt="no image icon"> {{/if}}
-    <br> {{!-- add input here --}}
+    <br> 
+    {{!-- add input here --}}
     {{#if hasComment}}
     <p>{{comment}}</p>
     <button class="remove" data-id="{{_id}}">Remove Comment</button>
