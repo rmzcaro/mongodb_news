@@ -19,11 +19,6 @@ var db = require('./models')
 
 var PORT = process.env.PORT || 3000; //host server port or local 3000 port
 
-// morgan logger for loggin requests CHECK IF LATER ISSUE 
-// app.use(logger("dev"));
-
-// body parser chunks your data (it's a middleware) in a secure way, because express by itself cannot read all daa
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: true
 })) //set extended to true to prevent stripping objects
@@ -103,18 +98,10 @@ app.get("/articles", function(req, res) {
     });
 });
 // route to view comments once saved 
-// 1- grab a specific id using the id in the parameter, prep ar query that finds the matching one in db
+// 1- grab a specific id using the id in the parameter, prep query that finds the matching one in db
 // 2- populate all associated notes 
 // 3 - if all is found successfully find article with matchind if, send it back to client 
 // 4 - else send error 
-
-// route to save / update an associated comment 
-// 1- create a new note and pass hte req.body to the entry
-// 2- if comment was successfully added, find one article with and id equal to parameter
-// update the article associated with comment 
-// 3 - chain a result of the query
-// 4 = if successful, send it back to client 
-// 5 - catch if error 
 
 app.post("/comment", function(req, res) {
     console.log(req.body);
