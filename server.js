@@ -57,25 +57,25 @@ app.get("/scrape", function (req, res) {
     axios.get("http://www.techcrunch.com").then(function (response) {
         // then we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
-        console.log(response.data);
+        // console.log(response.data);
 
         // add the text and href of every link , and save them 
         // as properties of the result object 
         let stories = $(".post-block__title__link");
-        console.log(stories);
+        // console.log(stories);
 
         // load text of stories - check cheerio
         stories.each(function (story, i) {
             console.log($(this).text());
             console.log($(this).attr("href"))
-            console.log($(this).siblings(".post-block__content").text());
+            console.log("this is a summary", $(this).find(".post-block__content").children().text());
 
             // mongoose to save this on db
 
             var result = {
                 headline: $(this).text().trim(),
                 url: $(this).attr("href").trim(),
-                summary: $(this).siblings(".post-block__content").text()
+                summary: $(this).find(".post-block__content").children().text()
             };
             // create my a news article in news collections 
             db.Article.create(result)
