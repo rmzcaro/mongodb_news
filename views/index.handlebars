@@ -4,8 +4,14 @@
     {{#each stories}}
      <p> {{headline}} </p>
           <p> {{url}} </p>
+          <p> {{summary}} </p>
+    <img src="{{photo}}" alt="photo" width="250px" height="100px">          
+
+<hr>
+{{!-- add input here --}}
+<input type="text" name="" id="">
           <!--if button clicked add comment  --> 
-          <button class ="viewComments" data-id="{{id}}">
+          <button class ="viewComments" data-id="{{_id}}">
               <i class="fas fa-sliders-h-square"></i>COMMENT HERE
           </button>
     {{/each}}

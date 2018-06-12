@@ -72,7 +72,7 @@ app.get("/scrape", function (req, res) {
                     summary : $(story).children(".post-block__content").text().trim(),
                     photo : $(story).children(".post-block__footer").children().children().children("img").attr("src")
             }
-            console.log(eachStory);
+            // console.log(eachStory);
             // create my a news article in news collections 
             db.Article.create(eachStory)
             .catch(function(err){
