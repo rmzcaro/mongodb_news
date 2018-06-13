@@ -28,11 +28,28 @@ app.use(express.static("public"))
 app.use(bodyParser.json())
 
 //db configuration
-var databaseUrl = "newsdb";
+var databaseUri = "mongodb://localhost/newsdb";
 var collections = ["news"];
 
 // connect to the mongo db, name of db: newsdb
-mongoose.connect("mongodb://localhost/newsdb");
+// mongoose.connect("mongodb://localhost/newsdb");
+if(process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI);
+} else {
+mongoose.connect(databaseUri);
+}
+
+// end db config 
+var mon = mongoose.connection; 
+
+mon.on( "error", function ( error ) {
+  console.log( "Mongoose Error: ", error );
+} )
+
+mon.once( "open", function () {
+  console.log( "Mongoose connected." );
+} );
+
 
 //express handlebars express extension to render handlebars partials
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
