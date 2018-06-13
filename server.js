@@ -32,7 +32,7 @@ var databaseUri = "mongodb://localhost/newsdb";
 var collections = ["news"];
 
 // connect to the mongo db, name of db: newsdb
-// mongoose.connect("mongodb://localhost/newsdb");
+mongoose.connect("mongodb://localhost/newsdb");
 if(process.env.MONGODB_URI) {
     mongoose.connect(process.env.MONGODB_URI);
 } else {
