@@ -44,24 +44,35 @@ var mon = mongoose.connection;
 
 mon.on( "error", function ( error ) {
   console.log( "Mongoose Error: ", error );
-} )
+});
 
 mon.once( "open", function () {
   console.log( "Mongoose connected." );
-} );
+});
 
 
 //express handlebars express extension to render handlebars partials
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-// MAY NOT NEED ANYMORE
-// log any mongojs errors to console 
-// db.on("error", function(error) {
-//     console.log("Database error:", error);
-// });
 
 //requiring all the routes
+
+app.get("/", function(req, res) {
+    // grab every document in the articles 
+    db.Article.find()
+    .then(function(stories){
+        // console.log("stories", stories)
+        let hbsObject = {
+            stories: stories
+        };
+        res.render("index", hbsObject)
+        // res.json(dbArticle);
+    })
+    .catch(function(err) {
+        res.json(err);
+    });
+});
 
 // get route for scraping the medium site 
 app.get("/scrape", function (req, res) {
