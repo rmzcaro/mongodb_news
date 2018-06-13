@@ -1,11 +1,12 @@
 # mongodb_news
 
-Whenever a user visits the site, the app should scrape stories from a news outlet of choice and display them for the user. Each scraped article should be saved to the application database. At a minimum, the app scrapes and displays the following information for each article:
+Tech Crunch Scraper: 
 
-Headline - the title of the article
+Users can see a list of articles from techcrunch.com including the headline, summary, image and url of the article. Users can also add and delete comments on each article. The comments are saved in the mongo database so users can revisit them later. 
 
-Summary - a short summary of the article
+This app is useful for users who are interested in solely the news content and want to keep notes about each article. This app gets rid of extra fluff. 
 
-URL - the url to the original article
+To get started, just go to the website and the list of articles will render along with previously added comments. 
 
-Users can leave comments on the articles displayed and revisit them later. The comments are saved to the database as well and associated with their articles. Users are able to delete comments left on articles. All stored comments are visible to every user.
+This app is maintained by Caro. 
+
